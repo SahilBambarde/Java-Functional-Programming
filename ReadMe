@@ -1,0 +1,25 @@
+Filter method
+map method
+forEach method
+Lambda Expression
+Custom static method call
+reduce
+sorted
+distinct
+collect
+Predicate
+Function
+Consumer
+BinaryOperator
+Supplier
+BiPredicate
+UnaryOperator
+BiFunction
+allMatch
+noneMatch
+anyMatch
+Comparator
+sorted
+thenComparing
+removeIf
+removeAll

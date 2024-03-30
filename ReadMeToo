@@ -1,0 +1,556 @@
+Microsoft Windows [Version 10.0.22631.3296]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Dell>java -version
+java version "11.0.15" 2022-04-19 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.15+8-LTS-149)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.15+8-LTS-149, mixed mode)
+
+C:\Users\Dell>jshell
+|  Welcome to JShell -- Version 11.0.15
+|  For an introduction type: /help intro
+
+jshell>
+        System.out.println("sahil")
+sahil
+
+jshell> List<Integer> numbers = List.of(12,9,13,4,6,2,4,12,15)
+numbers ==> [12, 9, 13, 4, 6, 2, 4, 12, 15]
+
+jshell> numbers.stream().reduce(0,(x,y)->x+y)
+$3 ==> 77
+
+jshell> numbers.stream().reduce(0,(x,y)->x)
+$4 ==> 0
+
+jshell> numbers.stream().reduce(0,(x,y)->y)
+$5 ==> 15
+
+jshell> numbers.stream().reduce(0,(x,y)->x>y : x:y)
+|  Error:
+|  ')' expected
+|  numbers.stream().reduce(0,(x,y)->x>y : x:y)
+|                                      ^
+
+jshell> numbers.stream().reduce(0,(x,y)->x>y ? x:y)
+$6 ==> 15
+
+jshell> numbers.stream().reduce(Integer.MIN_VALUE,(x,y)->x>y ? x:y)
+$7 ==> 15
+
+jshell> numbers.stream().reduce(Integer.MIN_VALUE,(x,y)->x>y ? y:x)
+$8 ==> -2147483648
+
+jshell> numbers.stream().reduce(Integer.MAX_VALUE,(x,y)->x>y ? y:x)
+$9 ==> 2
+
+jshell> numbers.stream().reduce(0,(x,y) x*x + y*y)
+|  Error:
+|  ')' expected
+|  numbers.stream().reduce(0,(x,y) x*x + y*y)
+|                              ^
+
+jshell> numbers.stream().reduce(0,(x,y) x*x + y*y))
+|  Error:
+|  ')' expected
+|  numbers.stream().reduce(0,(x,y) x*x + y*y))
+|                              ^
+
+jshell> numbers.stream().reduce(0,(x,y) ->x*x + y*y)
+$10 ==> -1935093279
+
+jshell> numbers.stream().map(x->x*x).reduce(0,Integer::sum)
+$11 ==> 835
+
+jshell> numbers.stream().map(x->x*x*x).reduce(0,Integer::sum)
+$12 ==> 10109
+
+jshell> numbers.stream().filter(x->x%2==1).reduce(0,Integer::sum)
+$13 ==> 37
+
+jshell> numbers.stream().filter(x->x%2==0).reduce(0,Integer::sum)
+$14 ==> 40
+
+jshell> numbers.stream().distinct().forEach(System.out::println)
+12
+9
+13
+4
+6
+2
+15
+
+jshell> numbers
+numbers ==> [12, 9, 13, 4, 6, 2, 4, 12, 15]
+
+jshell> numbers.stream().sorted().forEach(System.out::println)
+2
+4
+4
+6
+9
+12
+12
+13
+15
+
+jshell> numbers.stream()distinct().sorted().forEach(System.out::println)
+|  Error:
+|  ';' expected
+|  numbers.stream()distinct().sorted().forEach(System.out::println)
+|                  ^
+
+jshell> numbers.stream()distinct().sorted().forEach(System.out::println)
+|  Error:
+|  ';' expected
+|  numbers.stream()distinct().sorted().forEach(System.out::println)
+|                  ^
+
+jshell> numbers.stream().distinct().sorted().forEach(System.out::println)
+2
+4
+6
+9
+12
+13
+15
+
+jshell> List<String> courses = List.of("Spring", "Spring Boot", "API" , "Microservices","AWS", "PCF","Azure", "Docker", "Kubernetes");
+courses ==> [Spring, Spring Boot, API, Microservices, AWS, PCF, Azure, Docker, Kubernetes]
+
+jshell> courses.stream().sorted().forEach(System.out::println)
+API
+AWS
+Azure
+Docker
+Kubernetes
+Microservices
+PCF
+Spring
+Spring Boot
+
+jshell> courses.stream().sorted(Comparator.naturalOrder()).forEach(System.out::println)
+API
+AWS
+Azure
+Docker
+Kubernetes
+Microservices
+PCF
+Spring
+Spring Boot
+
+jshell> courses.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println)
+Spring Boot
+Spring
+PCF
+Microservices
+Kubernetes
+Docker
+Azure
+AWS
+API
+
+jshell> courses.stream().sorted(Comparator.comparing(str->str.length()).forEach(System.out::println))
+|  Error:
+|  cannot find symbol
+|    symbol:   method length()
+|  courses.stream().sorted(Comparator.comparing(str->str.length()).forEach(System.out::println))
+|                                                    ^--------^
+|  Error:
+|  cannot find symbol
+|    symbol:   method forEach(System.out::println)
+|  courses.stream().sorted(Comparator.comparing(str->str.length()).forEach(System.out::println))
+|                          ^---------------------------------------------^
+
+jshell> courses.stream().sorted(Comparator.comparing(str->str.length())).forEach(System.out::println)
+API
+AWS
+PCF
+Azure
+Spring
+Docker
+Kubernetes
+Spring Boot
+Microservices
+
+jshell> courses
+courses ==> [Spring, Spring Boot, API, Microservices, AWS, PCF, Azure, Docker, Kubernetes]
+
+jshell> courses.stream().map(x->x.length()).collect(Collectors.toList())
+$25 ==> [6, 11, 3, 13, 3, 3, 5, 6, 10]
+
+jshell> Consumer<String> consumer = ()->{}
+|  Error:
+|  incompatible types: incompatible parameter types in lambda expression
+|  Consumer<String> consumer = ()->{};
+|                              ^----^
+
+jshell> Consumer<String> consumer = (str)->{}
+consumer ==> $Lambda$49/0x00000008000dcc40@1f36e637
+
+jshell> Consumer<String> consumer = (str)->System.out::println
+|  Error:
+|  incompatible types: bad return type in lambda expression
+|      void is not a functional interface
+|  Consumer<String> consumer = (str)->System.out::println;
+|                                     ^-----------------^
+
+jshell> Consumer<String> consumer = System.out::println
+consumer ==> $Lambda$50/0x00000008000dc040@551aa95a
+
+jshell> BiConsumer<String,String> consumer =(str1,str2) System.out.println(str2)
+|  Error:
+|  ')' expected
+|  BiConsumer<String,String> consumer =(str1,str2) System.out.println(str2);
+|                                           ^
+|  Error:
+|  ';' expected
+|  BiConsumer<String,String> consumer =(str1,str2) System.out.println(str2);
+|                                                ^
+
+jshell> BiConsumer<String,String> consumer =(str1,str2)-> System.out.println(str2)
+consumer ==> $Lambda$51/0x00000008000dc440@6ebc05a6
+
+jshell> Supplier<String> supploer=() -> "Ranga"
+supploer ==> $Lambda$52/0x00000008000db840@3cef309d
+
+jshell> Supplier<String> supploer=() -> {"Ranga";}
+|  Error:
+|  not a statement
+|  Supplier<String> supploer=() -> {"Ranga";};
+|                                   ^-----^
+|  Error:
+|  incompatible types: bad return type in lambda expression
+|      missing return value
+|  Supplier<String> supploer=() -> {"Ranga";};
+|                            ^--------------^
+
+jshell> Supplier<String> supploer=() -> {return "Ranga";}
+supploer ==> $Lambda$52/0x00000008000db840@3cef309d
+
+jshell> BinaryOperator<Integer> sumBinaryOperator =(x, y) -> x+y;
+sumBinaryOperator ==> $Lambda$53/0x00000008000dbc40@49fc609f
+
+jshell> Stream.of(12, 9, 13, 4, 6, 2, 4, 12, 15).count()
+$32 ==> 9
+
+jshell> Stream.of(12, 9, 13, 4, 6, 2, 4, 12, 15).reduce(0,Integer::sum)
+$33 ==> 77
+
+jshell> Stream.of(12, 9, 13, 4, 6, 2, 4, 12, 15)
+$34 ==> java.util.stream.ReferencePipeline$Head@22a67b4
+
+jshell> int[] numberArray = {12, 9, 13, 4, 6, 2, 4, 12, 15}
+numberArray ==> int[9] { 12, 9, 13, 4, 6, 2, 4, 12, 15 }
+
+jshell> Arrays.stream(numberArray)
+$36 ==> java.util.stream.IntPipeline$Head@72b6cbcc
+
+jshell> Arrays.stream(numberArray).sum()
+$37 ==> 77
+
+jshell> Arrays.stream(numberArray).min()
+$38 ==> OptionalInt[2]
+
+jshell> Arrays.stream(numberArray).max()
+$39 ==> OptionalInt[15]
+
+jshell> Arrays.stream(numberArray).average()
+$40 ==> OptionalDouble[8.555555555555555]
+
+jshell> IntStream.range(1,10)
+$41 ==> java.util.stream.IntPipeline$Head@6895a785
+
+jshell> IntStream.range(1,10).sum()
+$42 ==> 45
+
+jshell> IntStream.rangeClosed(1,10).sum()
+$43 ==> 55
+
+jshell> IntStream.iterate(1, e-> e+2).limit(10).sum()
+$44 ==> 100
+
+jshell> IntStream.iterate(1, e-> e+2).limit(10).peek(System.out::println).sum()
+1
+3
+5
+7
+9
+11
+13
+15
+17
+19
+$45 ==> 100
+
+jshell> IntStream.iterate(2, e-> e+2).limit(10).peek(System.out::println).sum()
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+$46 ==> 110
+
+jshell> IntStream.iterate(2, e-> e+*e).limit(10).peek(System.out::println).sum()
+|  Error:
+|  illegal start of expression
+|  IntStream.iterate(2, e-> e+*e).limit(10).peek(System.out::println).sum()
+|                             ^
+
+jshell> IntStream.iterate(2, e-> e*e).limit(10).peek(System.out::println).sum()
+2
+4
+16
+256
+65536
+0
+0
+0
+0
+0
+$47 ==> 65814
+
+jshell> IntStream.iterate(2, e-> e*e).limit(10).peek(System.out::println).sum()
+2
+4
+16
+256
+65536
+0
+0
+0
+0
+0
+$48 ==> 65814
+
+jshell> IntStream.iterate(2, e-> e*e).limit(10).peek(System.out::println).sum()
+2
+4
+16
+256
+65536
+0
+0
+0
+0
+0
+$49 ==> 65814
+
+jshell> IntStream.iterate(2, e-> e*2).limit(10).peek(System.out::println).sum()
+2
+4
+8
+16
+32
+64
+128
+256
+512
+1024
+$50 ==> 2046
+
+jshell> IntStream.iterate(2, e-> e*2).limit(10).collect(Collector.toList())
+|  Error:
+|  cannot find symbol
+|    symbol:   method toList()
+|  IntStream.iterate(2, e-> e*2).limit(10).collect(Collector.toList())
+|                                                  ^--------------^
+
+jshell> IntStream.iterate(2, e-> e*2).limit(10).boxed().collect(Collector.toList())
+|  Error:
+|  cannot find symbol
+|    symbol:   method toList()
+|  IntStream.iterate(2, e-> e*2).limit(10).boxed().collect(Collector.toList())
+|                                                          ^--------------^
+
+jshell> IntStream.iterate(2, e-> e*2).limit(10).boxed().collect(Collectors.toList())
+$51 ==> [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+
+jshell> Interger.MAX_VALUE
+|  Error:
+|  cannot find symbol
+|    symbol:   variable Interger
+|  Interger.MAX_VALUE
+|  ^------^
+
+jshell> Integer.MAX_VALUE
+$52 ==> 2147483647
+
+jshell> Long.MAX_VALUE
+$53 ==> 9223372036854775807
+
+jshell> IntStream.rangeClosed(1,50).reduce(1, (x,y)->x*y)
+$54 ==> 0
+
+jshell> LongStream.rangeClosed(1,50).reduce(1, (x,y)->x*y)
+$55 ==> -3258495067890909184
+
+jshell> LongStream.rangeClosed(1,50).reduce(1L, (x,y)->x*y)
+$56 ==> -3258495067890909184
+
+jshell> LongStream.rangeClosed(1,20).reduce(1L, (x,y)->x*y)
+$57 ==> 2432902008176640000
+
+jshell> LongStream.rangeClosed(1,50).mapToObject(BigInteger::valueOf).reduce(BigInteger.ONE, (x,y)->x*y)
+|  Error:
+|  cannot find symbol
+|    symbol:   method mapToObject(BigInteger::valueOf)
+|  LongStream.rangeClosed(1,50).mapToObject(BigInteger::valueOf).reduce(BigInteger.ONE, (x,y)->x*y)
+|  ^--------------------------------------^
+
+jshell> LongStream.rangeClosed(1,50).mapToObject(BigInteger::valueOf).reduce(BigInteger.ONE, BigInteger::multiply)
+|  Error:
+|  cannot find symbol
+|    symbol:   method mapToObject(BigInteger::valueOf)
+|  LongStream.rangeClosed(1,50).mapToObject(BigInteger::valueOf).reduce(BigInteger.ONE, BigInteger::multiply)
+|  ^--------------------------------------^
+
+jshell> LongStream.rangeClosed(1,50).mapToObj(BigInteger::valueOf).reduce(BigInteger.ONE, BigInteger::multiply)
+$58 ==> 30414093201713378043612608166064768844377641568960512000000000000
+
+jshell> courses
+courses ==> [Spring, Spring Boot, API, Microservices, AWS, PCF, Azure, Docker, Kubernetes]
+
+jshell> courses.stream().collect(Collectors.joining(" "))
+$60 ==> "Spring Spring Boot API Microservices AWS PCF Azure Docker Kubernetes"
+
+jshell> courses.stream().collect(Collectors.joining(","))
+$61 ==> "Spring,Spring Boot,API,Microservices,AWS,PCF,Azure,Docker,Kubernetes"
+
+jshell> "Spring".split("")
+$62 ==> String[6] { "S", "p", "r", "i", "n", "g" }
+
+jshell> courses.stream().map(c->c.split("")).collect(Collectors.toList())
+$63 ==> [[Ljava.lang.String;@32d2fa64, [Ljava.lang.String;@1d8d30f7, [Ljava.lang.String;@3e57cd70, [Ljava.lang.String;@9a7504c, [Ljava.lang.String;@2c039ac6, [Ljava.lang.String;@587d1d39, [Ljava.lang.String;@58c1670b, [Ljava.lang.String;@6b57696f, [Ljava.lang.String;@5bb21b69]
+
+jshell> courses.stream().map(c->c.split(""))
+$64 ==> java.util.stream.ReferencePipeline$3@687080dc
+
+jshell> courses.stream().map(c->c.split("")).flatMap(Arrays::stream)
+$65 ==> java.util.stream.ReferencePipeline$7@7ce6a65d
+
+jshell> courses.stream().map(c->c.split("")).flatMap(Arrays::stream).collect(Collectors.toList())
+$66 ==> [S, p, r, i, n, g, S, p, r, i, n, g,  , B, o, o, t, A, P, I, M, i, c, r, o, s, e, r, v, i, c, e, s, A, W, S, P, C, F, A, z, u, r, e, D, o, c, k, e, r, K, u, b, e, r, n, e, t, e, s]
+
+jshell> courses.stream().map(c->c.split("")).flatMap(Arrays::stream).distinct().collect(Collectors.toList())
+$67 ==> [S, p, r, i, n, g,  , B, o, t, A, P, I, M, c, s, e, v, W, C, F, z, u, D, k, K, b]
+
+jshell> List<String> courses2 = List.of("Spring", "Spring Boot", "API" , "Microservices","AWS", "PCF","Azure", "Docker", "Kubernetes");
+courses2 ==> [Spring, Spring Boot, API, Microservices, AWS, PCF, Azure, Docker, Kubernetes]
+
+jshell> courses.stream().flatMap(c->courses2.stream().map(c2->List.of(c,c2))
+   ...> )
+$69 ==> java.util.stream.ReferencePipeline$7@5bfbf16f
+
+jshell> courses.stream().flatMap(c->courses2.stream().map(c2->List.of(c,c2))
+   ...> ).collect(Collectors.toList())
+$70 ==> [[Spring, Spring], [Spring, Spring Boot], [Spring, API], [Spring, Microservices], [Spring, AWS], [Spring, PCF], [Spring, Azure], [Spring, Docker], [Spring, Kubernetes], [Spring Boot, Spring], [Spring Boot, Spring Boot], [Spring Boot, API], [Spring Boot, Microservices], [Spring Boot, AWS], [Spring Boot, PCF], [Spring Boot, Azure], [Spring Boot, Docker], [Spring Boot, Kubernetes], [API, Spring], [API, Spring Boot], [API, API], [API, Microservices], [API, AWS], [API, PCF], [API, Azure], [API, Docker], [API, Kubernetes], [Microservices, Spring], [Microservices, Spring Boot], [Microservices, API], [Microservices, Microservices], [Microservices, AWS], [Microse ... ], [Docker, API], [Docker, Microservices], [Docker, AWS], [Docker, PCF], [Docker, Azure], [Docker, Docker], [Docker, Kubernetes], [Kubernetes, Spring], [Kubernetes, Spring Boot], [Kubernetes, API], [Kubernetes, Microservices], [Kubernetes, AWS], [Kubernetes, PCF], [Kubernetes, Azure], [Kubernetes, Docker], [Kubernetes, Kubernetes]]
+
+jshell> courses.stream().flatMap(c->courses2.stream().map(c2->List.of(c,c2))
+   ...> ).filter(list-> list.get(0).equals(list.get(1))).collect(Collectors.toList())
+$71 ==> [[Spring, Spring], [Spring Boot, Spring Boot], [API, API], [Microservices, Microservices], [AWS, AWS], [PCF, PCF], [Azure, Azure], [Docker, Docker], [Kubernetes, Kubernetes]]
+
+jshell> courses.stream().flatMap(c->courses2.stream().map(c2->List.of(c,c2))
+   ...> ).filter(list-> !list.get(0).equals(list.get(1))).collect(Collectors.toList())
+$72 ==> [[Spring, Spring Boot], [Spring, API], [Spring, Microservices], [Spring, AWS], [Spring, PCF], [Spring, Azure], [Spring, Docker], [Spring, Kubernetes], [Spring Boot, Spring], [Spring Boot, API], [Spring Boot, Microservices], [Spring Boot, AWS], [Spring Boot, PCF], [Spring Boot, Azure], [Spring Boot, Docker], [Spring Boot, Kubernetes], [API, Spring], [API, Spring Boot], [API, Microservices], [API, AWS], [API, PCF], [API, Azure], [API, Docker], [API, Kubernetes], [Microservices, Spring], [Microservices, Spring Boot], [Microservices, API], [Microservices, AWS], [Microservices, PCF], [Microservices, Azure], [Microservices, Docker], [Microservices, Kubernetes] ... tes], [Docker, Spring], [Docker, Spring Boot], [Docker, API], [Docker, Microservices], [Docker, AWS], [Docker, PCF], [Docker, Azure], [Docker, Kubernetes], [Kubernetes, Spring], [Kubernetes, Spring Boot], [Kubernetes, API], [Kubernetes, Microservices], [Kubernetes, AWS], [Kubernetes, PCF], [Kubernetes, Azure], [Kubernetes, Docker]]
+
+jshell> courses.stream().flatMap(c->courses2.stream().filter(c2->c2.length()==c.length()).map(c2->List.of(c,c2))
+   ...> ).filter(list-> !list.get(0).equals(list.get(1))).collect(Collectors.toList())
+$73 ==> [[Spring, Docker], [API, AWS], [API, PCF], [AWS, API], [AWS, PCF], [PCF, API], [PCF, AWS], [Docker, Spring]]
+
+jshell> courses.stream().filter(c->c.length()>11).map(String::toUpperCase).findFirst()
+$74 ==> Optional[MICROSERVICES]
+
+jshell> courses.stream().peek(System.out::println).filter(c->c.length()>11).map(String::toUpperCase).findFirst()
+Spring
+Spring Boot
+API
+Microservices
+$75 ==> Optional[MICROSERVICES]
+
+jshell> courses.stream().peek(System.out::println).filter(c->c.length()>11).map(String::toUpperCase).peek(System.out::println).findFirst()
+Spring
+Spring Boot
+API
+Microservices
+MICROSERVICES
+$76 ==> Optional[MICROSERVICES]
+
+jshell> courses.stream().peek(System.out::println).filter(c->c.length()>11).map(String::toUpperCase).peek(System.out::println)
+$77 ==> java.util.stream.ReferencePipeline$11@66d1af89
+
+jshell> courses.stream().peek(System.out::println).filter(c->c.length()>11).map(String::toUpperCase).peek(System.out::println).findFirst()
+Spring
+Spring Boot
+API
+Microservices
+MICROSERVICES
+$78 ==> Optional[MICROSERVICES]
+
+jshell> courses
+courses ==> [Spring, Spring Boot, API, Microservices, AWS, PCF, Azure, Docker, Kubernetes]
+
+jshell> courses.replaceAll(str->str.toUpperCase())
+|  Exception java.lang.UnsupportedOperationException
+|        at ImmutableCollections.uoe (ImmutableCollections.java:71)
+|        at ImmutableCollections$AbstractImmutableList.replaceAll (ImmutableCollections.java:108)
+|        at (#80:1)
+
+jshell> List<String> modifyableCOurses = new ArrayList(courses)
+|  Warning:
+|  unchecked call to ArrayList(java.util.Collection<? extends E>) as a member of the raw type java.util.ArrayList
+|  List<String> modifyableCOurses = new ArrayList(courses);
+|                                   ^--------------------^
+|  Warning:
+|  unchecked conversion
+|    required: java.util.List<java.lang.String>
+|    found:    java.util.ArrayList
+|  List<String> modifyableCOurses = new ArrayList(courses);
+|                                   ^--------------------^
+modifyableCOurses ==> [Spring, Spring Boot, API, Microservices, AWS, PCF, Azure, Docker, Kubernetes]
+
+jshell> List<String> modifyableCOurses = new ArrayList(courses);
+|  Warning:
+|  unchecked call to ArrayList(java.util.Collection<? extends E>) as a member of the raw type java.util.ArrayList
+|  List<String> modifyableCOurses = new ArrayList(courses);
+|                                   ^--------------------^
+|  Warning:
+|  unchecked conversion
+|    required: java.util.List<java.lang.String>
+|    found:    java.util.ArrayList
+|  List<String> modifyableCOurses = new ArrayList(courses);
+|                                   ^--------------------^
+modifyableCOurses ==> [Spring, Spring Boot, API, Microservices, AWS, PCF, Azure, Docker, Kubernetes]
+
+jshell> modigyableCOurses.replaceAll(str->str.toUpperCase())
+|  Error:
+|  cannot find symbol
+|    symbol:   variable modigyableCOurses
+|  modigyableCOurses.replaceAll(str->str.toUpperCase())
+|  ^---------------^
+
+jshell> modifyableCOurses.replaceAll(str->str.toUpperCase())
+
+jshell> modifyableCOurses
+modifyableCOurses ==> [SPRING, SPRING BOOT, API, MICROSERVICES, AWS, PCF, AZURE, DOCKER, KUBERNETES]
+
+jshell> modifyableCOurses.removeAll(str->str.length()<6)
+|  Error:
+|  incompatible types: java.util.Collection is not a functional interface
+|      multiple non-overriding abstract methods found in interface java.util.Collection
+|  modifyableCOurses.removeAll(str->str.length()<6)
+|  ^-------------------------^
+
+jshell> modifyableCOurses.removeIf(str->str.length()<6)
+$85 ==> true
+
+jshell> modifyableCOurses
+modifyableCOurses ==> [SPRING, SPRING BOOT, MICROSERVICES, DOCKER, KUBERNETES]
+
+jshell>

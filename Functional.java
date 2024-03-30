@@ -1,5 +1,5 @@
 import java.util.List;
-public class Structured {
+public class Functional {
     public static void main(String...a){
         //print all the numbers in the list
         List<Integer> numbers = List.of(12,9,13,4,6,2,4,12,15);
@@ -83,11 +83,33 @@ public class Structured {
                 .forEach(System.out::println);
     }
 
+    private static int sum(int a,int b){
+        System.out.println(a +" "+ b);
+//        0 12
+//        12 9
+//        21 13
+//        34 4
+//        38 6
+//        44 2
+//        46 4
+//        50 12
+//        62 15
+//        77
+
+        return a+b;
+    }
+
     private static int addList(List<Integer> numbers){
-        int sum =0;
-        for(int n:numbers){
-            sum+=n;
-        }
-        return sum;
+//        int sum =0;
+//        for(int n:numbers){
+//            sum+=n;
+//        }
+//        return sum;
+
+        return numbers.stream()
+                //.reduce(0, Functional::sum);
+                //.reduce(0,(x,y)->x+y);
+                .reduce(0,Integer::sum);
+
     }
 }
